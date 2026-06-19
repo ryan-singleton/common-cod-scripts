@@ -1,0 +1,36 @@
+REM ===========================================================================
+REM A collection of string values that are used in ITEM CutTypes.
+REM These should be raw stings and should build off of each other. Do not
+REM include other files in this file.
+REM
+REM The contents af this file are licensed to you by Ryan Singleton under the
+REM MIT license.
+REM ===========================================================================
+
+Function DecoiledStraight()
+    Return "Decoiled Straight"
+End Function
+
+Function MachineCut()
+    Return "Machine Cut"
+End Function
+
+Function DrawOnly()
+    Return "Draw Only"
+End Function
+
+Function Equipment()
+    Return "Draw Only"
+End Function
+
+Function SpiralStraight()   
+    Return "Spiral Straight"
+End Function
+
+Function OvalStraight()   
+    Return "Oval Straight"
+End Function
+
+Function Pipework()
+    Return "Pipework"
+End Function

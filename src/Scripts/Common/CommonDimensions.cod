@@ -1,0 +1,104 @@
+REM ===========================================================================
+REM A collection of string values that are used in ITEM Dimensions.
+REM These should be raw stings and should build off of each other. Do not
+REM include other files in this file.
+REM
+REM The contents af this file are licensed to you by Ryan Singleton under the
+REM MIT license.
+REM ===========================================================================
+
+Function Width()
+    Return "Width"
+End Function
+
+Function Depth()
+    Return "Depth"
+End Function
+
+Function Height()
+    Return "Height"
+End Function
+
+Function Length()
+    Return "Length"
+End Function
+
+Function Diameter()
+    Return "Diameter"
+End Function
+
+Function Angle()
+    Return "Angle"
+End Function
+
+REM Extensions
+Function TopExtension()
+    Return "Top Extension"
+End Function
+
+Function BottomExtension()
+    Return "Bottom Extension"
+End Function
+
+Function RightExtension()
+    Return "Right Extension"
+End Function
+
+Function LeftExtension()
+    Return "Left Extension"
+End Function
+
+REM Radii
+Function InnerRadius()
+    Return "Inner Radius"
+End Function
+
+REM Width variants
+Function TopWidth()
+    Return "Top Width"
+End Function
+
+Function BottomWidth()
+    Return "Btm Width"
+End Function
+
+Function RightWidth()
+    Return "Right Width"
+End Function
+
+Function LeftWidth()
+    Return "Left Width"
+End Function
+
+Function WidthIn()
+    Return "Width In"
+End Function
+
+Function WidthOut()
+    Return "Width Out"
+End Function
+
+REM Depth variants
+Function TopDepth()
+    Return "Top Depth"
+End Function
+
+Function BottomDepth()
+    Return "Btm Depth"
+End Function
+
+Function RightDepth()
+    Return "Right Depth"
+End Function
+
+Function LeftDepth()
+    Return "Left Depth"
+End Function
+
+Function DepthIn()
+    Return "Depth In"
+End Function
+
+Function DepthOut()
+    Return "Depth Out"
+End Function

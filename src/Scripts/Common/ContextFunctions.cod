@@ -1,0 +1,53 @@
+Include MAPPATH_SCRIPTS + "Common/ShellFunctions.cod"
+
+Function CreateMetadata(contextName)
+    Dim metaData As ARRAY
+    metaData.Add(contextName, "No SubContext", UserName(), Timestamp(), FileTimestamp())
+    Return metaData
+End Function
+
+Function CreateContext(contextName)
+  EnsurePath(TempRoot())
+  CreateDynamicScripts()
+
+  Dim context As ARRAY
+  Dim metaData = CreateMetadata(contextName)
+  context.Add(metaData)
+  Return context
+End Function
+
+Function GetContextName(context)
+    Return context[1][1]
+End Function
+
+Function SetContextName(context, contextName)
+    Return context[1][1] = contextName
+End Function
+
+Function GetSubContext(context)
+    Return context[1][2]
+End Function
+
+Function SetSubContext(context, subContextName)
+    context[1][2] = subContextName
+End Function
+
+Function GetMetadata(context)
+    Return context[1]
+End Function
+
+Function SetMetadata(context)
+    Return context[1]
+End Function
+
+Function GetUserName(context)
+    Return context[1][3]
+End Function
+
+Function GetTimestamp(context)
+    Return context[1][4]
+End Function
+
+Function GetFileTimestamp(context)
+    Return context[1][5]
+End Function

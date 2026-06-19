@@ -1,0 +1,32 @@
+REM ===========================================================================
+REM A collection of string values that are used in ITEM Options.
+REM These should be raw stings and should build off of each other. Do not
+REM include other files in this file.
+REM
+REM The contents af this file are licensed to you by Ryan Singleton under the
+REM MIT license.
+REM ===========================================================================
+
+Function ThroatType()
+    Return "Throat Type"
+End Function
+
+Function Radius()
+    Return "Radius"
+End Function
+
+Function Mitred()
+    Return "Mitred"
+End Function
+
+Function Mitered()
+    Return Mitred()
+End Function
+
+Function AddAllowanceToBody()
+    Return "AddAllowanceToBody"
+End Function
+
+Function NumberOfSegments()
+  Return "Number Of Segments"
+End Function

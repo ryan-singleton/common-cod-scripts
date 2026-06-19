@@ -1,0 +1,36 @@
+Include MAPPATH_SCRIPTS + "Common/CommonPaths.cod"
+
+Function DeletePath(path)
+    Exec("cmd", EXEC_WAIT + EXEC_SHOW_NORMAL, "\/c del " + path)
+End Function
+
+Function RunVbScript(path, args)
+    Exec(path, EXEC_WAIT + EXEC_SHOW_MIN, args)
+End Function
+
+Function RunPath(path)
+    Exec(path, EXEC_DEFAULT)
+End Function
+
+Function EnsurePath(path, showDebug)
+    RunVbScript(VbScriptPath("EnsurePath.vbs"), path + " " + showDebug)
+End Function
+
+Function CreateDynamicScripts()
+    RunVbScript(VbScriptPath("CreateDynamicScripts.vbs"), DynamicScriptPath() + " " + False)
+End Function
+
+Function UserName()    
+    Include DynamicScriptPath()
+    Return GetUserNameResult()
+End Function
+
+Function Timestamp()    
+    Include DynamicScriptPath()
+    Return GetDateResult()
+End Function
+
+Function FileTimestamp()    
+    Include DynamicScriptPath()
+    Return GetDateForFilenameResult()
+End Function

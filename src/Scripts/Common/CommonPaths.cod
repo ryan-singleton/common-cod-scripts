@@ -1,0 +1,51 @@
+REM ===========================================================================
+REM A collection of string values that are used to find common paths.
+REM
+REM The contents af this file are licensed to you by Ryan Singleton under the
+REM MIT license.
+REM ===========================================================================
+
+Include MAPPATH_SCRIPTS + "Common/CoreFunctions.cod"
+
+REM ===========================================================================
+REM # Purpose
+REM Removes the slash at the start of the path, if there is one, to make path
+REM concatenation more predicatable.
+REM 
+REM # Inputs
+REM - path: The provided path value to remove a leading slash from.
+REM 
+REM # Returns
+REM The without a leading slash.
+REM ===========================================================================
+Function TrimStartSlashes(path)
+    Dim result = path
+    If StartsWith(path, "/*") Or StartsWith(path, "\*") Then
+        result = Right(path, Len(path) - 1)
+    End If
+    Return result
+End Function
+
+Function ScriptPath(path)
+    Return MAPPATH_SCRIPTS + TrimStartSlashes(path)
+End Function
+
+Function VbScripts()
+    Return MAPPATH_SCRIPTS + "Common\VB Scripts\"
+End Function
+
+Function VbScriptPath(path)
+    Return VbScripts() + TrimStartSlashes(path)
+End Function
+
+Function TempRoot()
+    Return "C:\Windows\Temp\FabScripts\"
+End Function
+
+Function TempPath(path)
+    Return TempRoot() + TrimStartSlashes(path)
+End Function
+
+Function DynamicScriptPath()
+    Return TempPath("DynamicFunctions.cod")
+End Function

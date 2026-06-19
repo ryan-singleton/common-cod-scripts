@@ -1,0 +1,331 @@
+REM ===========================================================================
+REM A collection of functions that provide conveniences in COD scripting.
+REM These functions are specific to trade concepts and terms.
+REM
+REM The contents af this file are licensed to you by Ryan Singleton under the
+REM MIT license.
+REM ===========================================================================
+
+Include MAPPATH_SCRIPTS + "Common\CoreFunctions.cod"
+Include MAPPATH_SCRIPTS + "Common\CommonCutTypes.cod"
+Include MAPPATH_SCRIPTS + "Common\CommonDimensions.cod"
+Include MAPPATH_SCRIPTS + "Common\CommonOptions.cod"
+
+REM ===========================================================================
+REM # Purpose
+REM Checks whether any dimension on an item has a name matching a given
+REM pattern. Supports wildcard pattern matching using *.
+REM
+REM # Inputs
+REM - item: The fabrication item to inspect. Must expose .Dims (count)
+REM     and .Dim[i].Name.
+REM - pattern: The string or wildcard pattern to match against dimension names.
+REM
+REM # Returns
+REM True/False or 1/0. True if at least one dimension name contains the
+REM pattern.
+REM ===========================================================================
+Function HasDimensionName(item, pattern)
+    Dim result
+    Dim i
+    For i=1 To item.Dims
+        If Contains(item.Dim[i].Name, pattern) Then
+            result = True
+        End If
+    Next
+    Return result
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Collects all dimensions on an item whose names match a given pattern.
+REM Supports wildcard pattern matching using *.
+REM
+REM # Inputs
+REM - item: The fabrication item to inspect. Must expose .Dims (count)
+REM     and .Dim[i].Name.
+REM - pattern: The string or wildcard pattern to match against dimension names.
+REM
+REM # Returns
+REM An array of dimension objects whose .Name contains the pattern.
+REM Returns an empty array if no dimensions match.
+REM ===========================================================================
+Function MatchingDimensionNames(item, pattern)
+    DIM results as ARRAY
+    Dim i
+    For i=1 To item.Dims
+        If Contains(item.Dim[i].Name, pattern) Then
+            results.Add(item.Dim[i])
+        End If
+    Next
+    Return results
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Collects all connectors on an item whose values match a given pattern.
+REM Supports wildcard pattern matching using *.
+REM
+REM # Inputs
+REM - item: The fabrication item to inspect. Must expose .Connectors (count)
+REM     and .Connector[i].Value.
+REM - pattern: The string or wildcard pattern to match against connector values.
+REM
+REM # Returns
+REM An array of connector objects whose .Value contains the pattern.
+REM Returns an empty array if no connectors match.
+REM ===========================================================================
+Function MatchingConnectors(item, pattern)
+    DIM results as ARRAY
+    Dim i
+    For i=1 To item.Connectors
+        If Contains(item.Connector[i].Value, pattern) Then
+            results.Add(item.Connector[i])
+        End If
+    Next
+    Return results
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Collects all seams on an item whose values match a given pattern.
+REM Supports wildcard pattern matching using *.
+REM
+REM # Inputs
+REM - item: The fabrication item to inspect. Must expose .Seams (count)
+REM     and .Seam[i].Value.
+REM - pattern: The string or wildcard pattern to match against seam values.
+REM
+REM # Returns
+REM An array of seam objects whose .Value contains the pattern.
+REM Returns an empty array if no seams match.
+REM ===========================================================================
+Function MatchingSeams(item, pattern)
+    DIM results as ARRAY
+    Dim i
+    For i=1 To item.Seams
+        If Contains(item.Seam[i].Value, pattern) Then
+            results.Add(item.Seam[i])
+        End If
+    Next
+    Return results
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Unlocks a lockable property, sets its value, then re-locks it. This is
+REM the base primitive for all Change* functions that operate on locked
+REM references. Will fail if the reference does not support the .Locked
+REM property. Note that for some properties (such as wire gauge), the
+REM lockable reference and the property being changed are not the same object.
+REM
+REM # Inputs
+REM - lockable: A reference that exposes .Locked and .Value properties.
+REM - newValue: The value to assign.
+REM ===========================================================================
+Function ChangeLockable(lockable, newValue)
+    lockable.Locked = False
+    lockable.Value = newValue
+    lockable.Locked = True
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Changes the value of a connector by unlocking it, setting the new value,
+REM and re-locking it.
+REM
+REM # Inputs
+REM - connector: The connector reference to update.
+REM - connectorName: The new connector name/value to assign.
+REM ===========================================================================
+Function ChangeConnector(connector, connectorName)
+    ChangeLockable(connector, connectorName)
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Changes the value of a seam by unlocking it, setting the new value,
+REM and re-locking it.
+REM
+REM # Inputs
+REM - seam: The seam reference to update.
+REM - seamName: The new seam name/value to assign.
+REM ===========================================================================
+Function ChangeSeam(seam, seamName)
+    ChangeLockable(seam, seamName)
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Changes the specification of an item by unlocking it, setting the new
+REM value, re-locking it, and triggering an item update.
+REM
+REM # Inputs
+REM - item: The fabrication item whose specification should change. Must
+REM     expose .Specification and an .Update() method.
+REM - spec: The new specification value to assign.
+REM ===========================================================================
+Function ChangeSpecification(item, spec)
+	ChangeLockable(item.Specification, spec)
+    item.Update()
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Changes the gauge of an item by unlocking the gauge lock, setting the
+REM new gauge value, and re-locking.
+REM
+REM # Inputs
+REM - item: The fabrication item. Must expose .gaugelock and .gauge.
+REM - gauge: The new gauge value to assign.
+REM ===========================================================================
+Function ChangeGauge(item, gauge)
+	item.gaugelock = False
+	item.gauge = gauge
+	item.gaugelock = True
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Changes the wire gauge of an item by unlocking the gauge lock, setting
+REM the new wire gauge value, and re-locking. Note that .gaugelock controls
+REM both .gauge and .wiregauge; only .wiregauge is set here.
+REM
+REM # Inputs
+REM - item: The fabrication item. Must expose .gaugelock and .wiregauge.
+REM - gauge: The new wire gauge value to assign.
+REM ===========================================================================
+Function ChangeWireGauge(item, gauge)
+	item.gaugelock = False
+	item.wiregauge = gauge
+	item.gaugelock = True
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Changes a specific connector on an item by index, then triggers an item
+REM update.
+REM
+REM # Inputs
+REM - item: The fabrication item. Must expose .Connector[index] and .Update().
+REM - index: The 1-based index of the connector to change.
+REM - connectorName: The new connector name/value to assign.
+REM ===========================================================================
+Function ChangeItemConnector(item, index, connectorName)
+    ChangeConnector(item.Connector[index], connectorName)
+    item.Update()
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Changes a specific seam on an item by index, then triggers an item update.
+REM
+REM # Inputs
+REM - item: The fabrication item. Must expose .Seam[index] and .Update().
+REM - index: The 1-based index of the seam to change.
+REM - seamName: The new seam name/value to assign.
+REM ===========================================================================
+Function ChangeItemSeam(item, index, seamName)
+    ChangeSeam(item.Seam[index], seamName)
+    item.Update()
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Changes the value of an airturn by unlocking it, setting the new value,
+REM and re-locking it.
+REM
+REM # Inputs
+REM - airturn: The airturn reference to update.
+REM - airturnName: The new airturn name/value to assign.
+REM ===========================================================================
+Function ChangeAirturn(airturn, airturnName)
+    ChangeLockable(airturn, airturnName)
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Changes a specific airturn on an item by index, then triggers an item
+REM update.
+REM
+REM # Inputs
+REM - item: The fabrication item. Must expose .Airturn[index] and .Update().
+REM - index: The 1-based index of the airturn to change.
+REM - airturnName: The new airturn name/value to assign.
+REM ===========================================================================
+Function ChangeItemAirturn(item, index, airturnName)
+    ChangeAirturn(item.Airturn[index], airturnName)
+    item.Update()
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Changes the value of a splitter by unlocking it, setting the new value,
+REM and re-locking it.
+REM
+REM # Inputs
+REM - splitter: The splitter reference to update.
+REM - splitterName: The new splitter name/value to assign.
+REM ===========================================================================
+Function ChangeSplitter(splitter, splitterName)
+    ChangeLockable(splitter, splitterName)
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Changes a specific splitter on an item by index, then triggers an item
+REM update.
+REM
+REM # Inputs
+REM - item: The fabrication item. Must expose .Splitter[index] and .Update().
+REM - index: The 1-based index of the splitter to change.
+REM - splitterName: The new splitter name/value to assign.
+REM ===========================================================================
+Function ChangeItemSplitter(item, index, splitterName)
+    ChangeSplitter(item.Splitter[index], splitterName)
+    item.Update()
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Sets the number of gore segments on an elbow item.
+REM
+REM # Inputs
+REM - item: The fabrication item (expected to be an elbow). Must expose
+REM     .Option["Number of Segments"] and an .Update() method.
+REM - goreCount: The number of gores/segments to set.
+REM ===========================================================================
+Function SetGores(item, goreCount)
+    item.Option[NumberOfSegments()].Value = goreCount
+    item.Update()
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Prepends a note to an item's notes field only if that note is not already
+REM present.
+REM
+REM # Inputs
+REM - item: The fabrication item. Must expose a .Notes property.
+REM - note: The note text to prepend.
+REM - separator: The string to place between the new note and existing notes,
+REM     e.g. " " or NewLine().
+REM ===========================================================================
+Function MaybePrependNote(item, note, separator)
+    MaybePrepend(item.Notes, note, separator)
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Appends a note to an item's notes field only if that note is not already
+REM present.
+REM
+REM # Inputs
+REM - item: The fabrication item. Must expose a .Notes property.
+REM - note: The note text to append.
+REM - separator: The string to place between existing notes and the new note,
+REM     e.g. " " or NewLine().
+REM ===========================================================================
+Function MaybeAppendNote(item, note, separator)
+    MaybeAppend(item.Notes, note, separator)
+End Function

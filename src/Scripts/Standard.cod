@@ -1,0 +1,27 @@
+REM ===========================================================================
+REM A single file to include for any scripts outside of the "Common" script
+REM directory. This way, all available tooling is available to a process with
+REM a single call.If
+REM 
+REM Do not include this script within any script found inside of this folder
+REM unless the include is within a function. This heavily increases the risk
+REM of circular dependencies, which are difficult to troubleshoot in this
+REM environment.
+REM
+REM The contents af this file are licensed to you by Ryan Singleton under the
+REM MIT license.
+REM ===========================================================================
+
+REM This includes CoreFunctions, which includes the common strings.
+REM Then it includes all of the remaining common functions.
+Include MAPPATH_SCRIPTS "Common\FabFunctions.cod"
+REM This will loads all common paths, shell functions, and context functions.
+Include ScriptPath("ContextFunctions.cod")
+
+REM Place your custom imports before, likely under a new Custom directory.
+
+REM Include ScriptPath("Custom\CommonConnectors.cod")
+REM Include ScriptPath("Custom\CommonSeams.cod")
+
+REM If you customize this file, don't overwrite it when you want to update the 
+REM scripts.

@@ -1,0 +1,111 @@
+
+REM ===========================================================================
+REM A collection of string values that provide conveniences in COD scripting.
+REM These should be raw stings and should build off of each other. Do not
+REM include other files in this file.
+REM
+REM The contents af this file are licensed to you by Ryan Singleton under the
+REM MIT license.
+REM ===========================================================================
+
+REM ===========================================================================
+REM # Purpose
+REM Returns a newline character (line feed, ASCII 10).
+REM
+REM # Returns
+REM A single newline character. Useful for building multi-line strings.
+REM ===========================================================================
+Function NewLine()
+    Return Ascii(10)
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Returns a double-quote character (ASCII 34).
+REM
+REM # Returns
+REM A single double-quote character. Use this to embed quotes in strings
+REM without breaking string parsing.
+REM ===========================================================================
+Function Quotes()
+    Return Ascii(34)
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Returns two apostrophes as a visual stand-in for an inch mark. Avoids
+REM the string parsing side effects caused by a true double-quote character.
+REM
+REM # Returns
+REM The two-character string ''.
+REM ===========================================================================
+Function FalseQuotes()
+    Return "''"
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Returns a tab character (ASCII 9).
+REM
+REM # Returns
+REM A single horizontal tab character.
+REM ===========================================================================
+Function Tab()
+    Return Ascii(9)
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Returns a string containing a specified number of tab characters.
+REM
+REM # Inputs
+REM - count: The number of tab characters to produce.
+REM
+REM # Returns
+REM A string of count concatenated tab characters. Returns an empty string
+REM if count is zero.
+REM ===========================================================================
+Function Tabs(count)
+    Dim result = ""
+    Dim i
+    For i=1 To count
+        result = result + Tab()
+    Next
+    Return result
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Returns an asterisk character (ASCII 42).
+REM
+REM # Returns
+REM A single * character. Useful when a literal asterisk is needed without
+REM it being interpreted as a wildcard in pattern-matching contexts.
+REM ===========================================================================
+Function Star()
+    Return Ascii(42)
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Returns the sentinel string "None". Used as a conventional null or
+REM absent-value marker throughout the fabrication scripts.
+REM
+REM # Returns
+REM The string "None".
+REM ===========================================================================
+Function None()
+    Return "None"
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Returns an empty string. Provides a named, readable way to represent
+REM an empty value or reset a string variable.
+REM
+REM # Returns
+REM An empty string.
+REM ===========================================================================
+Function EmptyString()
+    Return ""
+End Function

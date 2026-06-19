@@ -1,0 +1,596 @@
+REM ===========================================================================
+REM A collection of functions that provide conveniences in COD scripting.
+REM These functions are for basic syntax and should be agnostic to trade
+REM terms and concepts. They are purely for easier manipulation of primitives.
+REM
+REM The contents af this file are licensed to you by Ryan Singleton under the
+REM MIT license.
+REM ===========================================================================
+
+Include MAPPATH_SCRIPTS + "Common\CommonStrings.cod"
+
+REM ===========================================================================
+REM # Purpose
+REM Prepends and appends a specific string to another string. Good for 
+REM enclosing a string with brackets, asterisks, parentheses, and more.
+REM 
+REM # Inputs
+REM - value: The string to wrap.
+REM - wrapper: The string to prepend and append to the value.
+REM 
+REM # Returns
+REM The value wrapped with the wrapper value as a string.
+REM ===========================================================================
+Function WrapWith(value, wrapper)
+    Return wrapper + value + wrapper
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Returns the 1-based index of the first occurrence of a substring within a 
+REM string. Returns 0 if the substring is not found.
+REM 
+REM # Inputs
+REM - value: The string to search within.
+REM - substring: The string to search for.
+REM 
+REM # Returns
+REM The 1-based integer index of the first occurrence, or 0 if not found.
+REM ===========================================================================
+Function IndexOf(value, substring)
+    Return Instr(1, value, substring)
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Compares two values and checks for equality. Alternative way to check
+REM equality. Purely for readability and preference.
+REM 
+REM # Inputs
+REM - first: The first string in the comparison.
+REM - second: The second string in the comparison.
+REM 
+REM # Returns
+REM True/False or 1/0
+REM ===========================================================================
+Function Equal(first, second)
+    Return first = second
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Compares two values and checks for inequality. Alternative way to check
+REM inequality. Purely for readability and preference.
+REM 
+REM # Inputs
+REM - first: The first string in the comparison.
+REM - second: The second string in the comparison.
+REM 
+REM # Returns
+REM True/False or 1/0
+REM ===========================================================================
+Function NotEqual(first, second)
+    Return first <> second
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Determines if a substring occurs anywhere within a larger string. Supports
+REM wildcard pattern matching by placing asterisks within the substring.
+REM 
+REM # Inputs
+REM - source: The string to search within.
+REM - substring: The string to search for. Asterisks may be included to 
+REM     pattern match further, e.g. "foo*bar" matches "fooANYTHINGbar".
+REM 
+REM # Returns
+REM True/False or 1/0
+REM ===========================================================================
+Function Contains(source, substring) 
+    Return Wildcard(source, WrapWith(substring, "*"))
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Determines if a substring does not occur anywhere within a larger string.
+REM Supports wildcard pattern matching by placing asterisks within the 
+REM substring. Inverse of Contains.
+REM 
+REM # Inputs
+REM - source: The string to search within.
+REM - substring: The string to search for. Asterisks may be included to 
+REM     pattern match further, e.g. "foo*bar" matches "fooANYTHINGbar".
+REM 
+REM # Returns
+REM True/False or 1/0
+REM ===========================================================================
+Function NotContains(source, substring)
+    Return Contains(source, substring) <> True
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Determines if a substring occurs anywhere within a larger string, checking
+REM against each entry in an array of substrings. Returns True if any one of 
+REM the substrings is found. Supports wildcard pattern matching by placing 
+REM asterisks within the substrings.
+REM 
+REM # Inputs
+REM - source: The string to search within.
+REM - substringArray: An array of strings to search for. Asterisks may be  
+REM     included in any entry to pattern match further.
+REM 
+REM # Returns
+REM True/False or 1/0
+REM ===========================================================================
+Function ContainsAny(source, substringArray)
+    Dim result = False
+    Dim i
+    For i=1 To substringArray.Count
+        If Contains(source, substringArray[i]) Then
+            result = True
+        End If
+    Next
+    Return result
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Determines if a substring does not occur anywhere within a larger string,
+REM checking against each entry in an array of substrings. Returns True only 
+REM if none of the substrings are found. Inverse of ContainsAny.
+REM 
+REM # Inputs
+REM - source: The string to search within.
+REM - substringArray: An array of strings to search for. Asterisks may be  
+REM     included in any entry to pattern match further.
+REM 
+REM # Returns
+REM True/False or 1/0
+REM ===========================================================================
+Function NotContainsAny(source, substringArray)
+    Return ContainsAny(source, substringArray) <> True
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Determines if a value is strictly equal to any member of an array.
+REM 
+REM # Inputs
+REM - source: The value to compare.
+REM - array: An array of values to compare against.
+REM 
+REM # Returns
+REM True/False or 1/0
+REM ===========================================================================
+Function EqualsAny(source, array)
+    Dim result = False
+    Dim i
+    For i=1 To array.Count
+        If source = array[i] Then
+            result = True
+        End If
+    Next
+    Return result
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Determines if a value is not strictly equal to any member of an array.
+REM Returns True only if the source does not match any entry. Inverse of 
+REM EqualsAny.
+REM 
+REM # Inputs
+REM - source: The value to compare.
+REM - array: An array of values to compare against.
+REM 
+REM # Returns
+REM True/False or 1/0
+REM ===========================================================================
+Function NotEqualsAny(source, array)
+    Return EqualsAny(source, array) <> True
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Determines if a string begins with a given substring. Supports wildcard 
+REM pattern matching by placing asterisks within the substring.
+REM 
+REM # Inputs
+REM - source: The string to search within.
+REM - substring: The string to search for at the start. Asterisks may be 
+REM     included to pattern match further, e.g. "foo*" matches "fooANYTHING".
+REM 
+REM # Returns
+REM True/False or 1/0
+REM ===========================================================================
+Function StartsWith(source, substring, caseSensitive)
+    Return Wildcard(source, substring + "*")
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Determines if a string does not begin with a given substring. Supports 
+REM wildcard pattern matching by placing asterisks within the substring.
+REM Inverse of StartsWith.
+REM 
+REM # Inputs
+REM - source: The string to search within.
+REM - substring: The string to search for at the start. Asterisks may be 
+REM     included to pattern match further, e.g. "foo*" matches "fooANYTHING".
+REM 
+REM # Returns
+REM True/False or 1/0
+REM ===========================================================================
+Function NotStartsWith(source, substring)
+    Return StartsWith(source, substring) <> True
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Determines if a string ends with a given substring. Supports wildcard 
+REM pattern matching by placing asterisks within the substring.
+REM 
+REM # Inputs
+REM - source: The string to search within.
+REM - substring: The string to search for at the end. Asterisks may be 
+REM     included to pattern match further, e.g. "*bar" matches "ANYTHINGbar".
+REM 
+REM # Returns
+REM True/False or 1/0
+REM ===========================================================================
+Function EndsWith(source, substring)
+    Return Wildcard(source, "*" + substring)
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Determines if a string does not end with a given substring. Supports 
+REM wildcard pattern matching by placing asterisks within the substring.
+REM Inverse of EndsWith.
+REM 
+REM # Inputs
+REM - source: The string to search within.
+REM - substring: The string to search for at the end. Asterisks may be 
+REM     included to pattern match further, e.g. "*bar" matches "ANYTHINGbar".
+REM - caseSensitive: A boolean indicating if the comparison should be case
+REM     sensitive. It is False by default.
+REM 
+REM # Returns
+REM True/False or 1/0
+REM ===========================================================================
+Function NotEndsWith(source, substring)
+    Return EndsWith(source, substring) <> True
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Returns everything in a string up to, but not including, the first 
+REM occurrence of a substring. If the substring is not found, returns an 
+REM empty string.
+REM 
+REM # Inputs
+REM - value: The string to slice.
+REM - substring: The string to search for. The result stops just before its
+REM     first occurrence.
+REM 
+REM # Returns
+REM The portion of value preceding the first occurrence of substring, or an
+REM empty string if substring is not found.
+REM ===========================================================================
+Function TakeUntil(value, substring) 
+    Dim index = indexOf(value, substring)
+    If index <> 0 Then
+        index = index - 1
+    End If
+    Return Left(value, index)
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Returns everything in a string that comes after the first occurrence of a 
+REM substring. If the substring is not found, returns an empty string.
+REM 
+REM # Inputs
+REM - value: The string to slice.
+REM - substring: The string to search for. The result begins immediately after
+REM     its first occurrence.
+REM 
+REM # Returns
+REM The portion of value following the first occurrence of substring, or an
+REM empty string if substring is not found.
+REM ===========================================================================
+Function TakeAfter(value, substring)
+    Dim index = IndexOf(value, substring)
+    Dim length
+    If index <> 0 Then
+        length = (Len(value) - Len(substring)) - index + 1
+    Else
+        length = 0
+    End If
+    Return Right(value, length)
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Rounds a value up to the nearest fractional inch based on a given 
+REM denominator. For example, a denominator of 8 rounds up to the nearest 
+REM 1/8 of an inch.
+REM 
+REM # Inputs
+REM - value: The numeric value in inches to round up.
+REM - denominator: The denominator of the inch fraction to round up to,
+REM     e.g. 2 for 1/2", 4 for 1/4", 8 for 1/8", 16 for 1/16".
+REM 
+REM # Returns
+REM The value rounded up to the nearest 1/denominator inch, as a number.
+REM ===========================================================================
+Function RoundUpToInchFraction(value, denominator)
+    Dim val = Number(value)
+    Dim denom = Number(denominator)
+    Return Round((val * denom) + 0.499999, 0) / denom
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Returns the modulus (remainder) of a division operation. Provided as a 
+REM convenience since this language does not have a built-in modulus operator.
+REM 
+REM # Inputs
+REM - n: The dividend.
+REM - d: The divisor.
+REM 
+REM # Returns
+REM The remainder after dividing n by d, as a number.
+REM ===========================================================================
+Function Mod(n,d)
+    Return n-(RoundDown(n/d)*d)
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Formats a decimal inch value as a whole inch and reduced fraction string,
+REM rounded up to the nearest fractional increment given by the denominator.
+REM 
+REM # Inputs
+REM - value: The decimal inch value to format.
+REM - denominator: The denominator of the smallest fraction to use,
+REM     e.g. 2 for 1/2", 4 for 1/4", 8 for 1/8", 16 for 1/16".
+REM 
+REM # Returns
+REM A string in the format "inch num/den", "num/den" if the inch is zero, or
+REM just the whole inch as a string if there is no remainder.
+REM Example: FormatInchFraction(2.4489, 2) -> "2 1/2"
+REM Example: FormatInchFraction(0.4489, 2) -> "1/2"
+REM Example: FormatInchFraction(2.0,    2) -> "2"
+REM ===========================================================================
+Function FormatInchFraction(value, denominator)
+    Dim result
+    Dim val = Number(value)
+    Dim denom = Number(denominator)
+    Dim eps = 0.499999
+
+    REM Round to nearest bucket in 1/denom
+    Dim n = Round(val * denom + eps, 0)   
+
+    REM Whole inches and remainder ticks
+    Dim remainder = Mod(n, denom)
+    Dim inch = (n - remainder) / denom
+
+    REM If exact inch, return just the inch as string
+    If remainder = 0 Then
+        result = inch
+    Else
+        REM Reduce fraction by dividing numerator/denominator by 2 while both even
+        Dim num = remainder
+        Dim den = denom
+        While ((Mod(num, 2)) = 0) And ((Mod(den, 2)) = 0)
+            num = num / 2
+            den = den / 2
+        EndWhile
+
+        REM Build "inch num/den" or just "num/den" if inch is zero
+        If inch = 0 Then
+            result = (num + "/" + den)
+        Else
+            result = (inch + " " + num + "/" + den)
+        End If
+    End If    
+    Return result
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Returns whether the ARRAY has no members.
+REM 
+REM # Inputs
+REM - array: The array to check the members of.
+REM 
+REM # Returns
+REM True/False or 1/0. True if the member count is 0.
+REM ===========================================================================
+Function IsEmptyArray(array)
+  Return array.Count = 0
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Returns whether the ARRAY has any members.
+REM 
+REM # Inputs
+REM - array: The array to check the members of.
+REM 
+REM # Returns
+REM True/False or 1/0. True if the member count is greater than 0.
+REM ===========================================================================
+Function IsNotEmptyArray(array)
+  Return IsEmpty(array) <> True
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Joins the elements of an array into a single string, with each element 
+REM separated by the given separator.
+REM 
+REM # Inputs
+REM - array: The array of values to join.
+REM - separator: The string to insert between each element, e.g. ", " or "-".
+REM 
+REM # Returns
+REM A single string of all array elements concatenated with the separator 
+REM between each. Returns an empty string if the array is empty.
+REM ===========================================================================
+Function StringJoin(array, separator)
+    Dim concatenated
+    Dim i
+    For i=1 To array.Count
+        concatenated = concatenated + array[i]
+        If i < array.Count Then
+            concatenated = concatenated + separator
+        End If
+    Next
+    Return concatenated
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Converts a boolean value to its string representation.
+REM Useful when a boolean needs to be displayed or concatenated as text.
+REM 
+REM # Inputs
+REM - value: The boolean value to convert.
+REM 
+REM # Returns
+REM The string "True" if value is truthy, otherwise "False".
+REM ===========================================================================
+Function AsBooleanString(value)
+    Dim result = "False"
+    If value Then
+        result = "True"
+    End If
+    Return result
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Checks whether a value is equal to the sentinel string "None".
+REM
+REM # Inputs
+REM - value: The value to test.
+REM
+REM # Returns
+REM True/False or 1/0. True if value equals "None".
+REM ===========================================================================
+Function IsNone(value)
+    Return Equal(value, None())
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Checks whether a value is not equal to the sentinel string "None".
+REM Inverse of IsNone.
+REM
+REM # Inputs
+REM - value: The value to test.
+REM
+REM # Returns
+REM True/False or 1/0. True if value does not equal "None".
+REM ===========================================================================
+Function NotNone(value)
+    Return IsNone(value) <> True
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Prepends a value to another value
+REM
+REM # Inputs
+REM - string: The string to prepend to.
+REM - substring: The string to prepend.
+REM - separator: The string to place between the two values,
+REM     e.g. "*", EmptyString(), or NewLine().
+REM ===========================================================================
+Function Prepend(string, substring, separator)
+  Return substring + separator + string
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Appends a value to another value.
+REM
+REM # Inputs
+REM - string: The string to append to.
+REM - substring: The string to append.
+REM - separator: The string to place between the two values,
+REM     e.g. "*", EmptyString(), or NewLine().
+REM ===========================================================================
+Function Append(string, substring, separator)
+  Return string + separator + substring
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Prepends a value to another value only if that note is not already
+REM present.
+REM
+REM # Inputs
+REM - string: The string to prepend to.
+REM - substring: The string to prepend.
+REM - separator: The string to place between the two values,
+REM     e.g. "*", EmptyString(), or NewLine().
+REM ===========================================================================
+Function MaybePrepend(string, substring, separator)
+  Dim result = string
+  If NotContains(string, substring) Then
+    result = Prepend(string, substring, separator)
+  End If
+  Return result
+End Function
+
+REM ===========================================================================
+REM # Purpose
+REM Appends a value to another value only if that note is not already
+REM present.
+REM
+REM # Inputs
+REM - string: The string to append to.
+REM - substring: The string to append.
+REM - separator: The string to place between the two values,
+REM     e.g. "*", EmptyString(), or NewLine().
+REM ===========================================================================
+Function MaybeAppend(string, substring, separator)
+  Dim result = string
+  If NotContains(string, substring) Then
+    result = Append(string, substring, separator)
+  End If
+  Return result
+End Function
+
+Function InBrackets(string)
+    Return "[" + string + "]"
+End Function
+
+Function InParentheses(string)
+    Return "(" + string + ")"
+End Function
+
+Function AppendArrayToFile(path, array)
+    object writeFile = new file(path, FORINPUT + ISTEXT)
+    If writeFile.IsOpen Then
+        writeFile.Close()
+        writeFile = new file(path, FORINPUT + FOROUTPUT + ISTEXT)
+        writeFile.Position = FILE_END
+        Dim i
+        For i=1 To array.Count
+            writeFile.WriteLine(array[i])
+        Next
+        writeFile.Close()
+    Else
+        writeFile = new file(path, FOROUTPUT + ISTEXT)
+         Dim i
+        For i=1 To array.Count
+            writeFile.WriteLine(array[i])
+        Next
+        writeFile.Close()
+    End If
+End Function
