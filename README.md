@@ -47,7 +47,11 @@ There are many things sneakily wrong with this. Many points of failure.
 
 ## How these scripts help
 
-With the scripts in this library, the functions that it provides will reduce how much code you need in the first place. On top of this, they serve as a reference for an ever-growing example script code base, so that the code you write in the future can be more stylistically and architecturally consistent.
+Much of what is wrong in the previous example will come with the nature of this work. These scripts, however, influence the likelihood of these errors but cutting down on risk factors.
+
+- Less code is less likelihood of errors
+- Less code is less complexity, which means better comprehension and quality by future contributions.
+- Lays out some standards for structure and practices as well as code style.
 
 ```vb
 Include MAPPATH_SCRIPTS + "Standard.cod"
@@ -116,12 +120,11 @@ As an example.
 Now, you only need to edit `Scripts/Standard.cod`.
 
 ```vb
-REM FabFunctions includes CoreFunctions, which includes the common strings.
-REM Then it includes all of the remaining common functions.
 Include MAPPATH_SCRIPTS "Common\FabFunctions.cod"
 
-Include MAPPATH_SCRIPTS "Custom\CommonConnectors.cod"
-Include MAPPATH_SCRIPTS "Custom\CommonSeams.cod"
+Include ScriptPath("Custom\CommonConnectors.cod")
+Include ScriptPath("Custom\CommonSeams.cod")
+REM etc.
 ```
 
 # Language Quirks
