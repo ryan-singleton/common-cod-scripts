@@ -2,7 +2,7 @@
 
 The Fabrication scripting syntax is rather basic and, if not handled conscientiously, can lead to some unwieldly script libraries. Keeping your scripts clean and modular is a great first step toward ensuring that future maintenance will be simple and resilient.
 
-The contents of this script library are built from years of experience and seeing a lot of repetitive and noisy code that often looks the same. For exmaple, look at this pseudo-code.
+The contents of this script library are built from years of experience and seeing a lot of repetitive and noisy code that often looks the same. For example, look at this pseudo-code.
 
 ## Shoddy example
 
@@ -47,7 +47,7 @@ There are many things sneakily wrong with this. Many points of failure.
 
 ## How these scripts help
 
-Much of what is wrong in the previous example will come with the nature of this work. These scripts, however, influence the likelihood of these errors but cutting down on risk factors.
+Much of what is wrong in the previous example will come with the nature of this work. These scripts, however, influence the likelihood of these errors by cutting down on risk factors.
 
 - Less code is less likelihood of errors
 - Less code is less complexity, which means better comprehension and quality by future contributions.
@@ -91,7 +91,7 @@ Now, in any of your scripts, you can use these functions by adding this to your 
 
 `Include MAPPATH_SCRIPTS + "Standard.cod"`
 
-From this point onward, you can use the tools found in our library. This includes within other scripts that you then call using `Include` later.
+From this point onward, you can use the tools found in our library. This includes downstream scripts that you then call using `Include` later.
 
 ## Updating
 
@@ -223,7 +223,7 @@ or
 GetFileTimestamp(context)
 ```
 
-I recommend getting it from the context if you can help it, because that is set at the beginning of the process and is now essentially a cache. But it doesn't matter much.
+I recommend getting it from the context if you can help it, because that is set at the beginning of the process and is now essentially a cache. If you decide to write your own functions to the dynamic script after obtaining these values, it will not cause issues.
 
 Keep in mind, however, that you can now add whatever you want to the context object so that you can ship around more state. For example, logs.
 
