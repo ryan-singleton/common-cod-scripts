@@ -1,104 +1,212 @@
 REM ===========================================================================
 REM A collection of string values that are used in ITEM Dimensions.
-REM These should be raw stings and should build off of each other. Do not
+REM These should be raw strings and should build off of each other. Do not
 REM include other files in this file.
 REM
-REM The contents af this file are licensed to you by Ryan Singleton under the
+REM The contents of this file are licensed to you by Ryan Singleton under the
 REM MIT license.
 REM ===========================================================================
 
+REM ---------------------------------------------------------------------------
+REM Primary dimensions
+REM ---------------------------------------------------------------------------
+
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Width".
+REM ===========================================================================
 Function Width()
     Return "Width"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Depth".
+REM ===========================================================================
 Function Depth()
     Return "Depth"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Height".
+REM ===========================================================================
 Function Height()
     Return "Height"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Length".
+REM ===========================================================================
 Function Length()
     Return "Length"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Diameter".
+REM ===========================================================================
 Function Diameter()
     Return "Diameter"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Angle".
+REM ===========================================================================
 Function Angle()
     Return "Angle"
 End Function
 
+REM ---------------------------------------------------------------------------
 REM Extensions
+REM ---------------------------------------------------------------------------
+
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Top Extension".
+REM ===========================================================================
 Function TopExtension()
     Return "Top Extension"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Bottom Extension".
+REM ===========================================================================
 Function BottomExtension()
     Return "Bottom Extension"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Right Extension".
+REM ===========================================================================
 Function RightExtension()
     Return "Right Extension"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Left Extension".
+REM ===========================================================================
 Function LeftExtension()
     Return "Left Extension"
 End Function
 
+REM ---------------------------------------------------------------------------
 REM Radii
+REM ---------------------------------------------------------------------------
+
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Inner Radius".
+REM ===========================================================================
 Function InnerRadius()
     Return "Inner Radius"
 End Function
 
+REM ---------------------------------------------------------------------------
 REM Width variants
+REM ---------------------------------------------------------------------------
+
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Top Width".
+REM ===========================================================================
 Function TopWidth()
     Return "Top Width"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Btm Width".
+REM ===========================================================================
 Function BottomWidth()
     Return "Btm Width"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Right Width".
+REM ===========================================================================
 Function RightWidth()
     Return "Right Width"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Left Width".
+REM ===========================================================================
 Function LeftWidth()
     Return "Left Width"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Width In".
+REM ===========================================================================
 Function WidthIn()
     Return "Width In"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Width Out".
+REM ===========================================================================
 Function WidthOut()
     Return "Width Out"
 End Function
 
+REM ---------------------------------------------------------------------------
 REM Depth variants
+REM ---------------------------------------------------------------------------
+
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Top Depth".
+REM ===========================================================================
 Function TopDepth()
     Return "Top Depth"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Btm Depth".
+REM ===========================================================================
 Function BottomDepth()
     Return "Btm Depth"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Right Depth".
+REM ===========================================================================
 Function RightDepth()
     Return "Right Depth"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Left Depth".
+REM ===========================================================================
 Function LeftDepth()
     Return "Left Depth"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Depth In".
+REM ===========================================================================
 Function DepthIn()
     Return "Depth In"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the dimension name string "Depth Out".
+REM ===========================================================================
 Function DepthOut()
     Return "Depth Out"
 End Function

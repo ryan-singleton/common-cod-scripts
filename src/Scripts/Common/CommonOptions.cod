@@ -1,32 +1,82 @@
 REM ===========================================================================
 REM A collection of string values that are used in ITEM Options.
-REM These should be raw stings and should build off of each other. Do not
+REM These should be raw strings and should build off of each other. Do not
 REM include other files in this file.
 REM
-REM The contents af this file are licensed to you by Ryan Singleton under the
+REM The contents of this file are licensed to you by Ryan Singleton under the
 REM MIT license.
 REM ===========================================================================
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the option name string "Throat Type". Used to reference the
+REM throat type option on elbow and fitting items.
+REM
+REM # Returns
+REM The string "Throat Type".
+REM ===========================================================================
 Function ThroatType()
     Return "Throat Type"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the option value string "Radius". Used as a throat type option
+REM value to indicate a radiused throat on elbow and fitting items.
+REM
+REM # Returns
+REM The string "Radius".
+REM ===========================================================================
 Function Radius()
     Return "Radius"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the option value string "Mitred". Used as a throat type option
+REM value to indicate a mitred throat. See also Mitered() for the American
+REM English spelling alias.
+REM
+REM # Returns
+REM The string "Mitred".
+REM ===========================================================================
 Function Mitred()
     Return "Mitred"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Alias for Mitred() using American English spelling. Both resolve to the
+REM same underlying option value.
+REM
+REM # Returns
+REM The string "Mitred" (via Mitred()).
+REM ===========================================================================
 Function Mitered()
     Return Mitred()
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the option name string "AddAllowanceToBody". Used to reference
+REM the add-allowance-to-body option on straight items.
+REM
+REM # Returns
+REM The string "AddAllowanceToBody".
+REM ===========================================================================
 Function AddAllowanceToBody()
     Return "AddAllowanceToBody"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the option name string "Number Of Segments". Used to reference
+REM the segment count option on gore elbows. See also SetGores() in
+REM FabFunctions.cod for a convenience wrapper.
+REM
+REM # Returns
+REM The string "Number Of Segments".
+REM ===========================================================================
 Function NumberOfSegments()
-  Return "Number Of Segments"
+    Return "Number Of Segments"
 End Function

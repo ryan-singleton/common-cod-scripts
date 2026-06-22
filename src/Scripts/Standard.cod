@@ -8,7 +8,7 @@ REM unless the include is within a function. This heavily increases the risk
 REM of circular dependencies, which are difficult to troubleshoot in this
 REM environment.
 REM
-REM The contents af this file are licensed to you by Ryan Singleton under the
+REM The contents of this file are licensed to you by Ryan Singleton under the
 REM MIT license.
 REM ===========================================================================
 

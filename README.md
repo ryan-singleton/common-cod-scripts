@@ -1,5 +1,7 @@
 # Common Fabrication Scripts
 
+> NOTE: Want to skip to exposition and start using it? See [Usage](docs/USAGE.md)
+
 The Fabrication scripting syntax is rather basic and, if not handled conscientiously, can lead to some unwieldly script libraries. Keeping your scripts clean and modular is a great first step toward ensuring that future maintenance will be simple and resilient.
 
 The contents of this script library are built from years of experience and seeing a lot of repetitive and noisy code that often looks the same. For example, look at this pseudo-code.
@@ -81,17 +83,7 @@ We use new functions that read like plain English and read legibly as to what th
 
 # Using the Scripts
 
-I recommend pulling this repository using [git clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository). But you can also just copy paste the contents of the files as you like. Dealer's choice, really.
-
-Next, I would locate the "Scripts" location for your Fabrication database. You can find this using the MAP.ini file, although it is usually somewhere like "PM Shared/Scripts".
-
-Place the contents of "src/Scripts" from this repository into your Scripts folder.
-
-Now, in any of your scripts, you can use these functions by adding this to your script.
-
-`Include MAPPATH_SCRIPTS + "Standard.cod"`
-
-From this point onward, you can use the tools found in our library. This includes downstream scripts that you then call using `Include` later.
+See the [Usage](docs/USAGE.md) document.
 
 ## Updating
 

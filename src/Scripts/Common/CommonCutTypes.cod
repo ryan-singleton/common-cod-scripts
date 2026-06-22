@@ -1,36 +1,86 @@
 REM ===========================================================================
 REM A collection of string values that are used in ITEM CutTypes.
-REM These should be raw stings and should build off of each other. Do not
+REM These should be raw strings and should build off of each other. Do not
 REM include other files in this file.
 REM
-REM The contents af this file are licensed to you by Ryan Singleton under the
+REM The contents of this file are licensed to you by Ryan Singleton under the
 REM MIT license.
 REM ===========================================================================
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the CutType string for a decoiled straight item.
+REM
+REM # Returns
+REM The string "Decoiled Straight".
+REM ===========================================================================
 Function DecoiledStraight()
     Return "Decoiled Straight"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the CutType string for a machine cut item.
+REM
+REM # Returns
+REM The string "Machine Cut".
+REM ===========================================================================
 Function MachineCut()
     Return "Machine Cut"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the CutType string for a draw-only item. Draw-only items are
+REM included in drawings but are not fabricated.
+REM
+REM # Returns
+REM The string "Draw Only".
+REM ===========================================================================
 Function DrawOnly()
     Return "Draw Only"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the CutType string for equipment items.
+REM
+REM # Returns
+REM The string "Equipment".
+REM ===========================================================================
 Function Equipment()
-    Return "Draw Only"
+    Return "Equipment"
 End Function
 
-Function SpiralStraight()   
+REM ===========================================================================
+REM # Purpose
+REM Returns the CutType string for a spiral straight item.
+REM
+REM # Returns
+REM The string "Spiral Straight".
+REM ===========================================================================
+Function SpiralStraight()
     Return "Spiral Straight"
 End Function
 
-Function OvalStraight()   
+REM ===========================================================================
+REM # Purpose
+REM Returns the CutType string for an oval straight item.
+REM
+REM # Returns
+REM The string "Oval Straight".
+REM ===========================================================================
+Function OvalStraight()
     Return "Oval Straight"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the CutType string for a pipework item.
+REM
+REM # Returns
+REM The string "Pipework".
+REM ===========================================================================
 Function Pipework()
     Return "Pipework"
 End Function
