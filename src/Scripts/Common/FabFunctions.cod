@@ -166,7 +166,9 @@ REM     expose .Specification and an .Update() method.
 REM - spec: The new specification value to assign.
 REM ===========================================================================
 Function ChangeSpecification(item, spec)
-	ChangeLockable(item.Specification, spec)
+    item.SpecLock = False
+    item.Specification = spec
+    item.SpecLock = True
     item.Update()
 End Function
 
