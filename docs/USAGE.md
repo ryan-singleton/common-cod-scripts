@@ -156,6 +156,8 @@ ChangeConnector(item.Connector[1], "TDC")
 ChangeSeam(item.Seam[1], "Pittsburgh")
 ```
 
+> NOTE: It is recommended that you create customizations that define your connectors, seams, and other custom values, so that you can use `TDC()` instead of "TDC", `Pittsburgh()` instead of "Pittsburgh", and so on.
+
 ### Finding connectors or seams by value
 
 ```vb
