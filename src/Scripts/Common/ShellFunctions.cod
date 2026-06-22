@@ -1,35 +1,104 @@
 Include MAPPATH_SCRIPTS + "Common/CommonPaths.cod"
 
+REM ===========================================================================
+REM # Purpose
+REM Deletes a file or directory at a specific path by invoking CMD.
+REM
+REM # Inputs
+REM - path: The path to delete.
+REM ===========================================================================
 Function DeletePath(path)
     Exec("cmd", EXEC_WAIT + EXEC_SHOW_NORMAL, "\/c del " + path)
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Runs a .VBS file by invoking CMD.
+REM
+REM # Inputs
+REM - path: The path to .VBS file.
+REM - args: The arguments to pass when running the script.
+REM ===========================================================================
 Function RunVbScript(path, args)
     Exec(path, EXEC_WAIT + EXEC_SHOW_MIN, args)
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Tells CMD to run something at a path. Leaves it to the OS to determine what
+REM to do with said file or folder (will likely use default applications).
+REM
+REM # Inputs
+REM - path: The path to file or folder to run.
+REM ===========================================================================
 Function RunPath(path)
     Exec(path, EXEC_DEFAULT)
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM If a specific directory does not exist, this creastes it. But only if it
+REM did not exist. Does this using VBS.
+REM
+REM # Inputs
+REM - path: The folder to ensure exists.
+REM - showDebug: Whether to show debugging messages while the VBS file runs.
+REM ===========================================================================
 Function EnsurePath(path, showDebug)
     RunVbScript(VbScriptPath("EnsurePath.vbs"), path + " " + showDebug)
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Runs a script that generates a new .COD file that provides runtime 
+REM information. 
+REM 
+REM Example: GetUserNameResult() gets the windows username.
+REM ===========================================================================
 Function CreateDynamicScripts()
     RunVbScript(VbScriptPath("CreateDynamicScripts.vbs"), DynamicScriptPath() + " " + False)
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Gets the windows username of the active user. Calls the dynamic script
+REM and GetUserNameResult() to achieve this. This is for convenience so that
+REM you do not need to include that script and call that function yourself.
+REM 
+REM # Returns
+REM The windows username of the active user.
+REM ===========================================================================
 Function UserName()    
     Include DynamicScriptPath()
     Return GetUserNameResult()
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Gets the timestamp from when the context was created. Calls the dynamic 
+REM script and GetDateResult() to achieve this. This is for convenience so
+REM that you do not need to include that script and call that function 
+REM yourself.
+REM 
+REM # Returns
+REM A well formed timestamp of when the context was created.
+REM ===========================================================================
 Function Timestamp()    
     Include DynamicScriptPath()
     Return GetDateResult()
 End Function
 
+
+REM ===========================================================================
+REM # Purpose
+REM Gets the filename-compatible timestamp from when the context was created. 
+REM Calls the dynamic script and GetDateForFilenameResult() to achieve this.
+REM This is for convenience so that you do not need to include that script and
+REM call that function yourself.
+REM 
+REM # Returns
+REM A filename-compatible timestamp for when the context was created.
+REM ===========================================================================
 Function FileTimestamp()    
     Include DynamicScriptPath()
     Return GetDateForFilenameResult()

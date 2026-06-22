@@ -1,11 +1,36 @@
 Include MAPPATH_SCRIPTS + "Common/ShellFunctions.cod"
 
+REM ===========================================================================
+REM # Purpose
+REM Creates an array with a context name, a subcontext name, username, 
+REM timestamp, and filename-compatible timestamp as members.
+REM 
+REM # Inputs
+REM - contextName The name of the context (script routine), valuable for 
+REM logging purposes later.
+REM 
+REM # Returns
+REM An array with context name, subcontext name, username, and timestamps.
+REM ===========================================================================
 Function CreateMetadata(contextName)
     Dim metaData As ARRAY
     metaData.Add(contextName, "No SubContext", UserName(), Timestamp(), FileTimestamp())
     Return metaData
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Creates an array that can hold metadata and state for a scripted routine.
+REM Useful for logging and reporting throughout the process.
+REM 
+REM # Inputs
+REM - contextName The name of the context (script routine), valuable for 
+REM logging purposes later.
+REM 
+REM # Returns
+REM An array with metadata and potential to hold state information of your
+REM choosing.
+REM ===========================================================================
 Function CreateContext(contextName)
   EnsurePath(TempRoot())
   CreateDynamicScripts()
@@ -16,38 +41,135 @@ Function CreateContext(contextName)
   Return context
 End Function
 
+
+REM ===========================================================================
+REM # Purpose
+REM Returns the context name (script routine name) from a context array.
+REM
+REM # Inputs
+REM - context: The context array created by CreateContext().
+REM
+REM # Returns
+REM The context name string stored at context[1][1].
+REM ===========================================================================
 Function GetContextName(context)
     Return context[1][1]
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Sets the context name (script routine name) on a context array.
+REM
+REM # Inputs
+REM - context:     The context array created by CreateContext().
+REM - contextName: The new context name string to assign.
+REM ===========================================================================
 Function SetContextName(context, contextName)
-    Return context[1][1] = contextName
+    context[1][1] = contextName
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the subcontext name from a context array. The subcontext name
+REM is used to track finer-grained stages within a script routine, useful
+REM for logging.
+REM
+REM # Inputs
+REM - context: The context array created by CreateContext().
+REM
+REM # Returns
+REM The subcontext name string stored at context[1][2]. Defaults to
+REM "No SubContext" as set by CreateMetadata().
+REM ===========================================================================
 Function GetSubContext(context)
     Return context[1][2]
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Sets the subcontext name on a context array. Call this as a routine
+REM progresses through distinct stages to improve log readability.
+REM
+REM # Inputs
+REM - context:        The context array created by CreateContext().
+REM - subContextName: The new subcontext name string to assign.
+REM ===========================================================================
 Function SetSubContext(context, subContextName)
     context[1][2] = subContextName
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the metadata array from a context array. The metadata array
+REM holds the context name, subcontext name, username, timestamp, and
+REM file-compatible timestamp as created by CreateMetadata().
+REM
+REM # Inputs
+REM - context: The context array created by CreateContext().
+REM
+REM # Returns
+REM The metadata array stored at context[1].
+REM ===========================================================================
 Function GetMetadata(context)
     Return context[1]
 End Function
 
-Function SetMetadata(context)
-    Return context[1]
+REM ===========================================================================
+REM # Purpose
+REM Intended to replace the metadata array on a context array. As currently
+REM written this function returns context[1] rather than accepting and
+REM assigning a new metadata value, making it identical to GetMetadata().
+REM
+REM # Inputs
+REM - context: The context array created by CreateContext().
+REM - metadata: The new metadata to assign to the context.
+REM ===========================================================================
+Function SetMetadata(context, metadata)
+    context[1] = metadata
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the username of the user who created the context.
+REM
+REM # Inputs
+REM - context: The context array created by CreateContext().
+REM
+REM # Returns
+REM The username string stored at context[1][3], captured at context
+REM creation time by UserName().
+REM ===========================================================================
 Function GetUserName(context)
     Return context[1][3]
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the timestamp captured when the context was created.
+REM
+REM # Inputs
+REM - context: The context array created by CreateContext().
+REM
+REM # Returns
+REM The timestamp string stored at context[1][4], captured at context
+REM creation time by Timestamp().
+REM ===========================================================================
 Function GetTimestamp(context)
     Return context[1][4]
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Returns the filename-compatible timestamp captured when the context
+REM was created. Useful for constructing log file names.
+REM
+REM # Inputs
+REM - context: The context array created by CreateContext().
+REM
+REM # Returns
+REM The file-safe timestamp string stored at context[1][5], captured at
+REM context creation time by FileTimestamp().
+REM ===========================================================================
 Function GetFileTimestamp(context)
     Return context[1][5]
 End Function

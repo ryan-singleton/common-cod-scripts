@@ -59,22 +59,6 @@ End Function
 
 REM ===========================================================================
 REM # Purpose
-REM Compares two values and checks for inequality. Alternative way to check
-REM inequality. Purely for readability and preference.
-REM 
-REM # Inputs
-REM - first: The first string in the comparison.
-REM - second: The second string in the comparison.
-REM 
-REM # Returns
-REM True/False or 1/0
-REM ===========================================================================
-Function NotEqual(first, second)
-    Return first <> second
-End Function
-
-REM ===========================================================================
-REM # Purpose
 REM Determines if a substring occurs anywhere within a larger string. Supports
 REM wildcard pattern matching by placing asterisks within the substring.
 REM 
@@ -88,24 +72,6 @@ REM True/False or 1/0
 REM ===========================================================================
 Function Contains(source, substring) 
     Return Wildcard(source, WrapWith(substring, "*"))
-End Function
-
-REM ===========================================================================
-REM # Purpose
-REM Determines if a substring does not occur anywhere within a larger string.
-REM Supports wildcard pattern matching by placing asterisks within the 
-REM substring. Inverse of Contains.
-REM 
-REM # Inputs
-REM - source: The string to search within.
-REM - substring: The string to search for. Asterisks may be included to 
-REM     pattern match further, e.g. "foo*bar" matches "fooANYTHINGbar".
-REM 
-REM # Returns
-REM True/False or 1/0
-REM ===========================================================================
-Function NotContains(source, substring)
-    Return Not Contains(source, substring)
 End Function
 
 REM ===========================================================================
@@ -136,24 +102,6 @@ End Function
 
 REM ===========================================================================
 REM # Purpose
-REM Determines if a substring does not occur anywhere within a larger string,
-REM checking against each entry in an array of substrings. Returns True only 
-REM if none of the substrings are found. Inverse of ContainsAny.
-REM 
-REM # Inputs
-REM - source: The string to search within.
-REM - substringArray: An array of strings to search for. Asterisks may be  
-REM     included in any entry to pattern match further.
-REM 
-REM # Returns
-REM True/False or 1/0
-REM ===========================================================================
-Function NotContainsAny(source, substringArray)
-    Return Not ContainsAny(source, substringArray)
-End Function
-
-REM ===========================================================================
-REM # Purpose
 REM Determines if a value is strictly equal to any member of an array.
 REM 
 REM # Inputs
@@ -176,23 +124,6 @@ End Function
 
 REM ===========================================================================
 REM # Purpose
-REM Determines if a value is not strictly equal to any member of an array.
-REM Returns True only if the source does not match any entry. Inverse of 
-REM EqualsAny.
-REM 
-REM # Inputs
-REM - source: The value to compare.
-REM - array: An array of values to compare against.
-REM 
-REM # Returns
-REM True/False or 1/0
-REM ===========================================================================
-Function NotEqualsAny(source, array)
-    Return Not EqualsAny(source, array)
-End Function
-
-REM ===========================================================================
-REM # Purpose
 REM Determines if a string begins with a given substring. Supports wildcard 
 REM pattern matching by placing asterisks within the substring.
 REM 
@@ -210,24 +141,6 @@ End Function
 
 REM ===========================================================================
 REM # Purpose
-REM Determines if a string does not begin with a given substring. Supports 
-REM wildcard pattern matching by placing asterisks within the substring.
-REM Inverse of StartsWith.
-REM 
-REM # Inputs
-REM - source: The string to search within.
-REM - substring: The string to search for at the start. Asterisks may be 
-REM     included to pattern match further, e.g. "foo*" matches "fooANYTHING".
-REM 
-REM # Returns
-REM True/False or 1/0
-REM ===========================================================================
-Function NotStartsWith(source, substring)
-    Return Not StartsWith(source, substring)
-End Function
-
-REM ===========================================================================
-REM # Purpose
 REM Determines if a string ends with a given substring. Supports wildcard 
 REM pattern matching by placing asterisks within the substring.
 REM 
@@ -241,26 +154,6 @@ REM True/False or 1/0
 REM ===========================================================================
 Function EndsWith(source, substring)
     Return Wildcard(source, "*" + substring)
-End Function
-
-REM ===========================================================================
-REM # Purpose
-REM Determines if a string does not end with a given substring. Supports 
-REM wildcard pattern matching by placing asterisks within the substring.
-REM Inverse of EndsWith.
-REM 
-REM # Inputs
-REM - source: The string to search within.
-REM - substring: The string to search for at the end. Asterisks may be 
-REM     included to pattern match further, e.g. "*bar" matches "ANYTHINGbar".
-REM - caseSensitive: A boolean indicating if the comparison should be case
-REM     sensitive. It is False by default.
-REM 
-REM # Returns
-REM True/False or 1/0
-REM ===========================================================================
-Function NotEndsWith(source, substring)
-    Return Not EndsWith(source, substring)
 End Function
 
 REM ===========================================================================
@@ -415,20 +308,6 @@ End Function
 
 REM ===========================================================================
 REM # Purpose
-REM Returns whether the ARRAY has any members.
-REM 
-REM # Inputs
-REM - array: The array to check the members of.
-REM 
-REM # Returns
-REM True/False or 1/0. True if the member count is greater than 0.
-REM ===========================================================================
-Function IsNotEmptyArray(array)
-  Return Not IsEmpty(array)
-End Function
-
-REM ===========================================================================
-REM # Purpose
 REM Joins the elements of an array into a single string, with each element 
 REM separated by the given separator.
 REM 
@@ -566,14 +445,47 @@ Function MaybeAppend(string, substring, separator)
   Return result
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Formats a string inside brackets. 
+REM 
+REM # Example
+REM "John Doe" becomes "[John Doe]"
+REM
+REM # Inputs
+REM - string: The string to surround with brackets.
+REM ===========================================================================
 Function InBrackets(string)
     Return "[" + string + "]"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Formats a string inside parentheses.
+REM 
+REM # Example
+REM "John Doe" becomes "(John Doe)"
+REM
+REM # Inputs
+REM - string: The string to surround with brackets.
+REM ===========================================================================
 Function InParentheses(string)
     Return "(" + string + ")"
 End Function
 
+REM ===========================================================================
+REM # Purpose
+REM Appends the contents of an array of strings to a file, line by line. This
+REM can be a little challenging since you can end up with strange things at
+REM the start of the file if you don't know the magical incantation.
+REM 
+REM # Credit
+REM Chris Kelly originally posted this approach.
+REM
+REM # Inputs
+REM - string: The path to the file.
+REM - array: The array of strings to write to the file, line by line.
+REM ===========================================================================
 Function AppendArrayToFile(path, array)
     object writeFile = new file(path, FORINPUT + ISTEXT)
     If writeFile.IsOpen Then
