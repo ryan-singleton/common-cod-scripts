@@ -59,12 +59,12 @@ Include MAPPATH_SCRIPTS + "Standard.cod"
 dim patterns As ARRAY
 patterns.Add(1, 866)
 
-If EqualsAny(item.CID, patterns) And NotContains(item.Service, "weld") And 
+If EqualsAny(item.CID, patterns) And not Contains(item.Service, "weld") And 
     StartsWith(item.Filename, "square") And Contains(item.Material, "galv") Then
 
     Dim i
     For i=1 to item.Connectors
-        If NotContains(item.Connector[i].Value, "tdc") Then
+        If not Contains(item.Connector[i].Value, "tdc") Then
             ChangeItemConnector(item, i, TDC())
         End If
     Next

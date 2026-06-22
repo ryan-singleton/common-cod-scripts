@@ -105,7 +105,7 @@ REM # Returns
 REM True/False or 1/0
 REM ===========================================================================
 Function NotContains(source, substring)
-    Return Contains(source, substring) <> True
+    Return not Contains(source, substring)
 End Function
 
 REM ===========================================================================
@@ -149,7 +149,7 @@ REM # Returns
 REM True/False or 1/0
 REM ===========================================================================
 Function NotContainsAny(source, substringArray)
-    Return ContainsAny(source, substringArray) <> True
+    Return not ContainsAny(source, substringArray)
 End Function
 
 REM ===========================================================================
@@ -188,7 +188,7 @@ REM # Returns
 REM True/False or 1/0
 REM ===========================================================================
 Function NotEqualsAny(source, array)
-    Return EqualsAny(source, array) <> True
+    Return not EqualsAny(source, array)
 End Function
 
 REM ===========================================================================
@@ -223,7 +223,7 @@ REM # Returns
 REM True/False or 1/0
 REM ===========================================================================
 Function NotStartsWith(source, substring)
-    Return StartsWith(source, substring) <> True
+    Return not StartsWith(source, substring)
 End Function
 
 REM ===========================================================================
@@ -260,7 +260,7 @@ REM # Returns
 REM True/False or 1/0
 REM ===========================================================================
 Function NotEndsWith(source, substring)
-    Return EndsWith(source, substring) <> True
+    Return not EndsWith(source, substring)
 End Function
 
 REM ===========================================================================
@@ -424,7 +424,7 @@ REM # Returns
 REM True/False or 1/0. True if the member count is greater than 0.
 REM ===========================================================================
 Function IsNotEmptyArray(array)
-  Return IsEmpty(array) <> True
+  Return not IsEmpty(array)
 End Function
 
 REM ===========================================================================
@@ -497,7 +497,7 @@ REM # Returns
 REM True/False or 1/0. True if value does not equal "None".
 REM ===========================================================================
 Function NotNone(value)
-    Return IsNone(value) <> True
+    Return not IsNone(value)
 End Function
 
 REM ===========================================================================
